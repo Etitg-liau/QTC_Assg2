@@ -1,11 +1,13 @@
 #Goal: To Understand How Quantum Walks work
-
+#Analyze for botnet detection
 from qiskit import QuantumCircuit, transpile, assemble
 from qiskit_aer import Aer
 from qiskit.visualization import plot_histogram
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
+
+#100 qubits for testing
 
 def create_quantum_walk_circuit(num_qubits):
     qc = QuantumCircuit(num_qubits)
@@ -35,14 +37,26 @@ def simulate_quantum_walk(qc):
 
 def create_network_graph():
     G = nx.Graph()
-    G.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4), (1, 3), (0, 4)])  # Example network structure
+    
+    G.add_nodes_from(range(100))
+    
+    for i in range(100):
+        if i - 1 >= 0:
+            G.add_edge(i, i+1)
+        elif i + 2 < 100:
+            G.add_edge(i, i+2)
+        elif i + 1 < 100:
+            G.add_edge(i, i +1)
+        else:
+            i += 1
+    
     pos = nx.spring_layout(G)
-    nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='gray', node_size=2000)
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='red', node_size=2000)
     plt.title("Network Graph Representing Connections")
     plt.show()
 
 def main():
-    num_qubits = 10
+    num_qubits = 100
     create_network_graph()
     
     qc = create_quantum_walk_circuit(num_qubits)
