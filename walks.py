@@ -1,6 +1,7 @@
 #Goal: To Understand How Quantum Walks work
 
-from qiskit import QuantumCircuit, Aer, transpile, assemble, execute
+from qiskit import QuantumCircuit, transpile, assemble
+from qiskit_aer import Aer
 from qiskit.visualization import plot_histogram
 import networkx as nx
 import numpy as np
@@ -41,7 +42,7 @@ def create_network_graph():
     plt.show()
 
 def main():
-    num_qubits = 5  # 
+    num_qubits = 10
     create_network_graph()
     
     qc = create_quantum_walk_circuit(num_qubits)
